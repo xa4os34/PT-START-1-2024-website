@@ -1,17 +1,37 @@
 .hljs {
-    background: #212529!important;
+    background: #212529 !important;
 }
 
-p > code,
-li > code,
-dd > code,
-td > code {
-  background: #212529;
-  color: #72e0d1;
-  word-wrap: break-word;
-  box-decoration-break: clone;
-  padding: .05rem .3rem .2rem;
-  border-radius: .4rem;
+p>code,
+li>code,
+dd>code,
+td>code {
+    background: #212529;
+    color: #72e0d1;
+    word-wrap: break-word;
+    box-decoration-break: clone;
+    padding: .05rem .3rem .2rem;
+    border-radius: .4rem;
+}
+
+body {
+    background: black!important;
+}
+
+.spoiler-text {
+    background: #212529;
+    color: #DDD;
+    box-decoration-break: clone;
+    padding: .1rem .6rem .4rem;
+    border-radius: .4rem;
+}
+
+.blured {
+    filter: blur(1.0rem);
+}
+
+.hidden {
+    display: none;
 }
 
 header {
@@ -19,7 +39,6 @@ header {
 }
 
 footer {
-    background-color: #f8f9fa;
     line-height: 60px;
     border-top: 1px solid #e5e5e5;
 }
