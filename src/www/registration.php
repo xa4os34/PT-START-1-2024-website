@@ -1,7 +1,10 @@
 <?php 
+
+include "database.php";
+
 function badRequest($message) {
         echo $message;
-        header('HTTP/1.1 400 Bad request', true, 400);
+        header('HTTP/1.1 400 Bad Request', true, 400);
         exit;
 }
 
@@ -29,7 +32,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = htmlspecialchars($_POST['email']);
     $password = $_POST['password'];
     $passwordSecond = $_POST['passwordSecond'];
-    $options = parse_ini_file("php.ini");
 
     if (strlen($username) > 30)
         array_push($validationErrors, "Username must be 31 characters long.");
@@ -44,39 +46,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         goto renderPage;
 
     $passwordHash = password_hash($password, PASSWORD_DEFAULT);
-
-    $connection = new mysqli(
-        $options["host"],
-        $options["username"],
-        $options["password"], 
-        $options["database"], 
-        $options["port"]);
-
-    if (!$connection)
-        die();
     
     // sql injection here. oh nyo! haha no nothing here.
-    $result = $connection->query("SELECT 'TRUE' FROM Users WHERE Username = '{$username}'");
-    if ($result->fetch_column(0) == "TRUE") 
+    if (IsUsernameInUse($username)) 
         array_push($validationErrors, "Users with this name already exists.");
 
-    $result = $connection->query("SELECT 'TRUE' FROM Users WHERE Email = '{$email}'");
-    if ($result->fetch_column(0) == "TRUE") 
+    // sql injection here. oh nyo! haha no nothing here.
+    if (IsEmailInUse($email)) 
         array_push($validationErrors, "Users with this email already exists.");
     
     if (count($validationErrors) > 0)
         goto renderPage;
 
     // And here. also nothing!!!
-    $result = $connection->query(
-        "INSERT INTO Users (Username, Email, PasswordHash)
-         VALUES ('{$username}', '{$email}', '{$passwordHash}')");
+    $result = CreateUser($username, $email, $passwordHash);
 
-    if (!$result)
+    if ($result == null)
         die();
 
     $_SESSION['is_auth'] = true;
-    $_SESSION['user_id'] = $connection->insert_id;
+    $_SESSION['user_id'] = $result;
+    echo $result;
     header("Location: /");
     exit;
 }
