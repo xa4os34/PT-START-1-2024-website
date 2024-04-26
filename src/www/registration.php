@@ -1,18 +1,7 @@
 <?php 
 
-include "database.php";
-
-function badRequest($message) {
-        echo $message;
-        header('HTTP/1.1 400 Bad Request', true, 400);
-        exit;
-}
-
-function paramRequired($parameter_name) {
-    $parameter = $_POST[$parameter_name];
-    if (!isset($parameter) || strlen($parameter) <= 0)
-        badRequest('Parameter \'' . $parameter_name . '\' is required');
-}
+include "_database.php";
+include "_utils.php";
 
 session_start();
 
@@ -24,14 +13,10 @@ if (isset($_SESSION['is_auth']) && $_SESSION['is_auth'] == true) {
 $validationErrors = array();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {   
-    paramRequired("username");
-    paramRequired("email");
-    paramRequired("password");
-
-    $username = htmlspecialchars($_POST['username']);
-    $email = htmlspecialchars($_POST['email']);
-    $password = $_POST['password'];
-    $passwordSecond = $_POST['passwordSecond'];
+    $username = htmlspecialchars(paramRequired("username"));
+    $email = htmlspecialchars(paramRequired("email"));
+    $password = paramRequired("password");
+    $passwordSecond = paramRequired("passwordSecond");
 
     if (strlen($username) > 30)
         array_push($validationErrors, "Username must be 31 characters long.");
@@ -59,14 +44,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         goto renderPage;
 
     // And here. also nothing!!!
-    $result = CreateUser($username, $email, $passwordHash);
+    $id = CreateUser($username, $email, $passwordHash);
 
-    if ($result == null)
+    if ($id == null)
         die();
 
+    $user = GetUserById($id);
+
     $_SESSION['is_auth'] = true;
-    $_SESSION['user_id'] = $result;
-    echo $result;
+    $_SESSION['user_id'] = $user->Id;
+    $_SESSION['username'] = $user->Username;
+    $_SESSION['email'] = $user->Email;
+
     header("Location: /");
     exit;
 }

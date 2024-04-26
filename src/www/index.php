@@ -1,10 +1,9 @@
 <?php
 session_start();
 
-if ($_SESSION['is_auth'] != true){
-   header("Location: /registration");
-   exit;
-}
+include '_utils.php';
+
+AuthorizationRequired();
 
 $title = "ten reasons why i hate js";
 $mainBody = 'views/_index.php';

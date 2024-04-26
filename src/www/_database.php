@@ -1,11 +1,4 @@
 <?php
-
-if(basename(__FILE__) == basename($_SERVER["SCRIPT_FILENAME"])){ 
-    header("HTTP/1.1 302 Moved Temporarily");
-    header("Location: error404");
-    exit;
-}
-
 $options = parse_ini_file("php.ini");
 $connection = new mysqli(
     $options["host"],

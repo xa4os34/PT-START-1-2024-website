@@ -1,18 +1,7 @@
 <?php 
 
-include "database.php";
-
-function badRequest($message) {
-        echo $message;
-        header('HTTP/1.1 400 Bad Request', true, 400);
-        exit;
-}
-
-function paramRequired($parameter_name) {
-    $parameter = $_POST[$parameter_name];
-    if (!isset($parameter) || strlen($parameter) <= 0)
-        badRequest('Parameter \'' . $parameter_name . '\' is required');
-}
+include "_utils.php";
+include "_database.php";
 
 session_start();
 
@@ -24,24 +13,26 @@ if (isset($_SESSION['is_auth']) && $_SESSION['is_auth'] == true) {
 $loginFailed = false;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {   
-    paramRequired("username");
-    paramRequired("password");
-
-    $username = htmlspecialchars($_POST['username']);
-    $password = $_POST['password'];
+    $username = htmlspecialchars( paramRequired("username"));
+    $password = paramRequired("password");
 
     // And here. also nothing!!!
     $result = GetUserByUsername($username);
 
     if ($result == null || password_verify($password, $result->PasswordHash)) {
-        header("HTTP/1.1 401 Unauthorized");
+        Unauthorized();
         $loginFailed = true;
         goto renderPage;
     }
 
+    echo ($result->Id);
+    echo ($result->Username);
+
     $_SESSION['is_auth'] = true;
     $_SESSION['user_id'] = $result->Id;
-    echo $result->Id;
+    $_SESSION['username'] = $result->Username;
+    $_SESSION['email'] = $result->Email;
+
     header("Location: /");
     exit;
 }
