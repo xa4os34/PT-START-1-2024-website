@@ -1,17 +1,3 @@
-<?php
-
-session_start();
-$_SESSION = array();
-session_unset();
-session_destroy();
-
-header("Location: /registration");
-
-$title = "Login";
-$mainBody = 'views/_login.php';
-include '_layout.php';
-exit
-?>
 <!DOCTYPE html>
 <html>
 
@@ -19,27 +5,26 @@ exit
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="icon" href="files/favicon.png" type="image/x-icon" />
-    <link rel="stylesheet" href="static/site.css">
+    <link rel="icon" href="/files/favicon.png" type="image/x-icon" />
+    <link rel="stylesheet" href="/static/site.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/a11y-dark.css">
 
-    <title>ten reasons why i hate js</title>
+    <title><?php echo $title; ?></title>
 </head>
 
 <body data-bs-theme="dark">
     <header class="bg-dark text-white">
         <dev class="container">
-
-            <a href="#" class="fs-1 text-bold text-white brand">ImShrimpCom</a>
+            <a href="#" class="fs-1 text-bold text-white ms-5">ImShrimpCom</a>
+            <a href="/login" class="fs-3 text-bold text-muted ms-5">login</a>
+            <a href="#" class="fs-3 text-bold text-muted ms-5">posts</a>
         </dev>
     </header>
 
-    <main class="position-relative">
-        <div class="osition-absolute top-0 start-50 translate-middle-x card mt-5 p-2" style="width: 26rem;">
-            <p class="fs-2 text-center mb-3">Logging out</p>
-        </div>
+    <main>
+        <?php include ($mainBody);?>
     </main>
 
     <footer class="bg-dark">
@@ -58,7 +43,7 @@ exit
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
         integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
         crossorigin="anonymous"></script>
-    <script src="static/site.js"></script>
+    <script src="/static/site.js"></script>
     <script>
         hljs.configure({cssSelector: 'code'});;
         hljs.configure({useBR: true});
