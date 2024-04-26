@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+if ($_SESSION['is_auth'] != true){
+   header("Location: /registration");
+   exit;
+}
+?>
+
+
 <!DOCTYPE html>
 <html>
 

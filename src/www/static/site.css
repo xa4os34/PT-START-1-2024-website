@@ -14,8 +14,8 @@ td>code {
     border-radius: .4rem;
 }
 
-body {
-    background: black!important;
+.top-25 {
+    top: 25%!important;
 }
 
 .spoiler-text {
@@ -32,6 +32,14 @@ body {
 
 .hidden {
     display: none;
+}
+
+body {
+    background: black!important;
+    min-height: 100vh;
+    margin: 0;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
 }
 
 header {
