@@ -12,7 +12,8 @@ function paramRequired($parameter_name) {
 }
 
 session_start();
-if ($_SESSION['is_auth'] == true) {
+
+if (isset($_SESSION['is_auth']) && $_SESSION['is_auth'] == true) {
     header("Location: /");
     exit;
 }
@@ -55,12 +56,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die();
     
     // sql injection here. oh nyo!
-    $result = $connection->query("SELECT Username FROM Users WHERE Username = '{$username}'");
-    if (count($result->fetch_array()) > 0) 
+    $result = $connection->query("SELECT 'TRUE' FROM Users WHERE Username = '{$username}'");
+    if ($result->fetch_column(0) == "TRUE") 
         array_push($validationErrors, "Users with this name already exists.");
 
-    $result = $connection->query("SELECT Email FROM Users WHERE Email = '{$email}'");
-    if (count($result->fetch_array()) > 0) 
+    $result = $connection->query("SELECT 'TRUE' FROM Users WHERE Email = '{$email}'");
+    if ($result->fetch_column(0) == "TRUE") 
         array_push($validationErrors, "Users with this email already exists.");
     
     if (count($validationErrors) > 0)
@@ -70,6 +71,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $result = $connection->query(
         "INSERT INTO Users (Username, Email, PasswordHash)
          VALUES ('{$username}', '{$email}', '{$passwordHash}')");
+
+    if (!$result)
+        die();
+
+    $_SESSION['is_auth'] = true;
+    $_SESSION['user_id'] = $connection->insert_id;
+    header("Location: /");
+    exit;
 }
 renderPage:
 ?>
