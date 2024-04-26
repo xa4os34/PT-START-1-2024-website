@@ -55,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!$connection)
         die();
     
-    // sql injection here. oh nyo!
+    // sql injection here. oh nyo! haha no nothing here.
     $result = $connection->query("SELECT 'TRUE' FROM Users WHERE Username = '{$username}'");
     if ($result->fetch_column(0) == "TRUE") 
         array_push($validationErrors, "Users with this name already exists.");
@@ -67,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (count($validationErrors) > 0)
         goto renderPage;
 
-    // And here.
+    // And here. also nothing!!!
     $result = $connection->query(
         "INSERT INTO Users (Username, Email, PasswordHash)
          VALUES ('{$username}', '{$email}', '{$passwordHash}')");
