@@ -1,5 +1,5 @@
-<div class="osition-absolute top-0 start-50 translate-middle-x card mt-5 p-2" style="width: 26rem;">
-    <form method="POST">
+<div class="osition-absolute top-0 start-50 translate-middle-x card mt-3 p-2" style="max-width: 26rem;">
+    <form method="POST" class="mx-2">
         <p class="fs-2 text-center mb-3">Login</p>
         <div class="mb-3">
             <label for="inputUsername" class="form-label">Username</label>
@@ -15,7 +15,10 @@
             <?php }?>
         </div>
         <div class="mb-3 text-center">
-            <input required type="submit" class="btn btn-primary" value="login" name="submit">
+            <input required type="submit" class="btn btn-primary" value="Login" name="submit">
+        </div>
+        <div class="md-3 text-center">
+            <p>If you have no account yet, you can <a href="/registration">registrate</a> new.</p>
         </div>
     </form>
 </div>

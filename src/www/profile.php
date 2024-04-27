@@ -1,8 +1,8 @@
 <?php
 
-include '_utils.php';
-
 session_start();
+
+include '_utils.php';
 
 AuthorizationRequired();
 

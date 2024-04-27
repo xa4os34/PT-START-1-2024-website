@@ -1,3 +1,11 @@
+<?php
+
+session_start();
+
+include_once '_utils.php';
+
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -16,14 +24,41 @@
 
 <body data-bs-theme="dark">
     <header class="bg-dark text-white">
-        <dev class="container">
-            <a href="#" class="fs-1 text-bold text-white ms-5">ImShrimpCom</a>
-            <a href="/login" class="fs-3 text-bold text-muted ms-5">login</a>
-            <a href="#" class="fs-3 text-bold text-muted ms-5">posts</a>
-        </dev>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container">
+                <a href="/" class="navbar-brand fs-3">ImShrimpCom</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 fs-5">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Posts</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fs-5">
+                        <?php if (IsAuthorized()) { ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/profile">Profile</a>
+                        </li>
+                        <?php } else {?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/registration">Registrate</a>
+                        </li>
+                        <?php }?>
+                    </ul>
+                </div>
+            </div>
+        </nav>
     </header>
 
-    <main>
+    <main class="p-4">
         <?php include ($mainBody);?>
     </main>
 

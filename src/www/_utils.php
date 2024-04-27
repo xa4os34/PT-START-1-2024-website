@@ -17,11 +17,17 @@ function paramRequired($parameter_name) {
     return $parameter;
 }
 
+function IsAuthorized() : bool {
+    return isset($_SESSION['is_auth']) && $_SESSION['is_auth'] == true;
+}
+
 function AuthorizationRequired() {
-    if (!isset($_SESSION['is_auth']) || $_SESSION['is_auth'] != true) {
+    if (!IsAuthorized()) {
         Unauthorized();
         header("Location: /login");
         exit;
     }
 }
+
+
 ?>
