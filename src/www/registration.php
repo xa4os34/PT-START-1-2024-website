@@ -13,10 +13,13 @@ if (isset($_SESSION['is_auth']) && $_SESSION['is_auth'] == true) {
 $validationErrors = array();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {   
-    $username = htmlspecialchars(paramRequired("username"));
-    $email = htmlspecialchars(paramRequired("email"));
-    $password = paramRequired("password");
-    $passwordSecond = paramRequired("passwordSecond");
+    
+    CsrfTokenRequired();
+
+    $username = htmlspecialchars(ParamRequired("username"));
+    $email = htmlspecialchars(ParamRequired("email"));
+    $password = ParamRequired("password");
+    $passwordSecond = ParamRequired("passwordSecond");
 
     if (strlen($username) > 30)
         array_push($validationErrors, "Username must be 31 characters long.");

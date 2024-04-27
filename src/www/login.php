@@ -13,8 +13,11 @@ if (isset($_SESSION['is_auth']) && $_SESSION['is_auth'] == true) {
 $loginFailed = false;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {   
-    $username = htmlspecialchars( paramRequired("username"));
-    $password = paramRequired("password");
+    
+    CsrfTokenRequired();
+
+    $username = htmlspecialchars(ParamRequired("username"));
+    $password = ParamRequired("password");
 
     // And here. also nothing!!!
     $result = GetUserByUsername($username);

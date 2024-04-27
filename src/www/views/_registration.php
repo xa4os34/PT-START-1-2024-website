@@ -23,6 +23,7 @@
         <?php }?>
         </div>
         <div class="mb-3 text-center">
+            <input hidden type="text" name="csrf" value="<?php echo GetCsrfToken();?>">
             <input required type="submit" class="btn btn-primary" value="Registrate" name="submit">
         </div>
         <div class="md-3 text-center">
