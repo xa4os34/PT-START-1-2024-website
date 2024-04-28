@@ -27,7 +27,8 @@ td>code {
 }
 
 .blured {
-    filter: blur(1.0rem);
+    filter: blur(0.5rem);
+    transform: scale(0.99);
 }
 
 .hidden {

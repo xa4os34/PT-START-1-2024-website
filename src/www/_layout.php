@@ -32,17 +32,22 @@ include_once '_utils.php';
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 fs-5">
+                        <?php if (IsAuthorized()) { ?>
                         <li class="nav-item">
                             <a class="nav-link" href="/">Home</a>
                         </li>
+                        <?php }?>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Posts</a>
+                            <a class="nav-link" href="/posts">Posts</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fs-5">
                         <?php if (IsAuthorized()) { ?>
                         <li class="nav-item">
                             <a class="nav-link" href="/profile">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-danger" href="/logout">Logout</a>
                         </li>
                         <?php } else {?>
                         <li class="nav-item">
