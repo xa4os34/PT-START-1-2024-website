@@ -1,4 +1,4 @@
-<div class="container d-flex flex-wrap gap-3">
+<div class="container d-flex justify-content-center flex-wrap gap-3">
     <?php 
     foreach($posts as $post) {
         $post = $post;

@@ -4,7 +4,7 @@
     <p class="fs-3 mb-4">Email: <?php echo $_SESSION['email']; ?></p>
     <p class="fs-3 mb-4">Your posts:</p>
     <hr>
-    <div class="d-flex flex-wrap gap-3">
+    <div class="d-flex justify-content-center flex-wrap gap-3">
         <?php 
         foreach($posts as $post) {
             $post = $post;
