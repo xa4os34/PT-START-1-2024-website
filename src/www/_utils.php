@@ -37,6 +37,7 @@ function GetCsrfToken() : string {
 
 function CsrfTokenRequired() {
     $token = ParamRequired("csrf");
+    $_SESSION["csrf_token"] = null;
     if ($_SESSION["csrf_token"] != $token) {
         BadRequest("Invalid csrf token");
         exit;

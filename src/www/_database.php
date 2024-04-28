@@ -1,7 +1,4 @@
 <?php
-// ini_set('display_startup_errors', 1);
-// ini_set('display_errors', 1);
-// error_reporting(-1);
 
 $options = parse_ini_file("php.ini");
 $connection = new mysqli(
@@ -136,7 +133,7 @@ function GetPosts() : ?array {
     return $posts;
 }
 
-function GetPostById(int $postId) : ?array {
+function GetPostById(int $postId) : ?Post {
     global $connection;
 
     $result = $connection->query(
@@ -150,6 +147,9 @@ function GetPostById(int $postId) : ?array {
         return null;
 
     $row = $result->fetch_row();
+
+    if ($row == null)
+        return null;
 
     return new Post(
         $row[0], $row[1], 
@@ -176,10 +176,10 @@ class User {
     public readonly int $Id;
     public readonly string $Username;
     public readonly string $Email;
-    public readonly string $PasswordHash;
+    public readonly ?string $PasswordHash;
 
     public function __construct(
-        string $username, string $email, string $passwordHash, int $id) {
+        string $username, string $email, ?string $passwordHash, int $id) {
         $this->Username = $username;
         $this->Email = $email;
         $this->PasswordHash = $passwordHash;
