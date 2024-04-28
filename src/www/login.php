@@ -28,9 +28,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         goto renderPage;
     }
 
-    echo ($result->Id);
-    echo ($result->Username);
-
     $_SESSION['is_auth'] = true;
     $_SESSION['user_id'] = $result->Id;
     $_SESSION['username'] = $result->Username;
