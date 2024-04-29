@@ -1,13 +1,22 @@
 <?php
 
-$options = parse_ini_file("php.ini");
-$connection = new mysqli(
-    $options["host"],
-    $options["username"],
-    $options["password"], 
-    $options["database"], 
-    $options["port"]);
-
+if (strtolower(getenv("USE_ENV_CONFIGURATION")) == "true"){
+    $connection = new mysqli(
+        getenv("MYSQL_HOST"),
+        getenv("MYSQL_USER"),
+        getenv("MYSQL_PASSWORD"),
+        getenv("MYSQL_DATABASE"),
+        getenv("MYSQL_PORT"));
+}
+else {
+    $options = parse_ini_file("php.ini");
+    $connection = new mysqli(
+        $options["host"],
+        $options["username"],
+        $options["password"], 
+        $options["database"], 
+        $options["port"]);
+}
 if (!isset($connection)) 
     die();
 

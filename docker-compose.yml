@@ -1,0 +1,50 @@
+version: '3'
+services:
+  website:
+    restart: always
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - 8080:80
+    environment:
+      - USE_ENV_CONFIGURATION=true
+      - MYSQL_HOST=database
+      - MYSQL_PORT=3306
+      - MYSQL_USER=db-user
+      - MYSQL_PASSWORD=Passw0rd123
+      - MYSQL_DATABASE=pt-start
+    volumes:
+      - ./src/www/:/var/www/pt-start/
+    depends_on:
+      - database
+    networks:
+      custom_network:
+        ipv4_address:  172.20.0.22
+
+  database:
+    image: mysql:latest
+    restart: always
+    environment:
+      - MYSQL_USER=db-user
+      - MYSQL_PASSWORD=Passw0rd123
+      - MYSQL_DATABASE=pt-start
+      - MYSQL_ROOT_PASSWORD=Strong_Passw0rd1234
+
+    volumes:
+      - db-data:/var/lib/mysql
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+    networks:
+      custom_network:
+        ipv4_address:  172.20.0.23
+
+volumes:
+  db-data:
+    name: ${DATABASE_VOLUME}
+
+networks:
+  custom_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

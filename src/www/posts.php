@@ -26,7 +26,7 @@ if (isset($_GET["id"])) {
 $posts = GetPosts();
 
 if ($posts == null)
-    die();
+    $posts = array();
 
 $title = 'Posts';
 $mainBody = 'views/_posts.php';
