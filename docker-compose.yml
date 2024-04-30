@@ -14,8 +14,6 @@ services:
       - MYSQL_USER=db-user
       - MYSQL_PASSWORD=Passw0rd123
       - MYSQL_DATABASE=pt-start
-    volumes:
-      - ./src/www/:/var/www/pt-start/
     depends_on:
       - database
     networks:

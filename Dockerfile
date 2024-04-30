@@ -8,6 +8,7 @@ RUN apt-get auto-remove -y
 
 RUN echo 'clear_env = no' >> /etc/php/8.3/fpm/pool.d/www.conf
 ADD ./src/www/ /var/www/pt-start
+RUN chown -R www-data:www-data /var/www/pt-start/
 COPY nginx-site.conf /etc/nginx/sites-available/default
 
 EXPOSE 80
