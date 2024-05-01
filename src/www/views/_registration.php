@@ -3,12 +3,12 @@
         <p class="fs-2 text-center mb-3">Registration</p>
         <div class="mb-3">
             <label for="inputUsername" class="form-label">Username</label>
-            <input required type="text" class="form-control" name="username" id="inputUsername" value="<?php echo $_POST["username"]?>" aria-describedby="usernameHelp">
-            <div id="usernameHelp" class="form-text">Username must be less then 31 characters long.</div>
+            <input required type="text" class="form-control" name="username" id="inputUsername" value="<?php echo htmlspecialchars($_POST["username"])?>" aria-describedby="usernameHelp">
+            <div id="usernameHelp" class="form-text">The username may only contain letters, numbers, dashes and underscores and must be 3-30 characters long.</div>
         </div>
         <div class="mb-3">
             <label for="inputEmail" class="form-label">Email address</label>
-            <input required type="email" class="form-control" name="email" id="inputEmail" value="<?php echo $_POST["email"]?>" aria-describedby="emailHelp">
+            <input required type="email" class="form-control" name="email" id="inputEmail" value="<?php echo htmlspecialchars($_POST["email"])?>" aria-describedby="emailHelp">
             <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
         </div>
         <div class="mb-3">

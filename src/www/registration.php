@@ -16,13 +16,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     CsrfTokenRequired();
 
-    $username = htmlspecialchars(ParamRequired("username"));
-    $email = htmlspecialchars(ParamRequired("email"));
+    $username = ParamRequired("username");
+    $email = ParamRequired("email");
     $password = ParamRequired("password");
     $passwordSecond = ParamRequired("passwordSecond");
 
-    if (strlen($username) > 30)
-        array_push($validationErrors, "Username must be 31 characters long.");
+    if (preg_match("/^[A-z0-9_-]{3,30}/", $username)) //White list is better then htmlspecialchars.
+        array_push($validationErrors, "Username contain not allowed characters or too long or too short.");
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL))
         array_push($validationErrors, "Email is invalid.");
@@ -62,6 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header("Location: /");
     exit;
 }
+
 renderPage:
 $title = "Registration";
 $mainBody = "views/_registration.php";

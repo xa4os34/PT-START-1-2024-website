@@ -24,6 +24,8 @@ $EscapeSql = function (string $value) : string {
     global $connection;
     return $connection->escape_string($value);
 }; // php is wierd.
+
+
 function IsUsernameInUse(string $username) : bool {
     global $connection, $EscapeSql;
     $result = $connection->query(
@@ -41,7 +43,9 @@ function IsEmailInUse(string $email) : bool {
 }
 
 function CreateUser(
-    string $username, string $email, string $passwordHash) : ?int {
+    string $username, string $email,
+    string $passwordHash) : ?int {
+
     global $connection, $EscapeSql;
     $result = $connection->query(
         "INSERT INTO Users (Username, Email, PasswordHash)
@@ -181,6 +185,7 @@ function GetPostById(int $postId) : ?Post {
 function CreatePost(
     string $title, string $content,
     ?string $TitleImage, int $ownerId) : ?int {
+
     global $connection, $EscapeSql;
     // Very readable code. I think. Yeah, now it's readable. (I love myself)
     $titleImage = $titleImage == null ? "DEFAULT" : $titleImage;
@@ -202,7 +207,9 @@ class User {
     public readonly ?string $PasswordHash;
 
     public function __construct(
-        string $username, string $email, ?string $passwordHash, int $id) {
+        string $username, string $email,
+        ?string $passwordHash, int $id) {
+
         $this->Username = $username;
         $this->Email = $email;
         $this->PasswordHash = $passwordHash;

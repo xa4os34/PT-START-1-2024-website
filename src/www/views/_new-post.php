@@ -4,7 +4,7 @@
         <div class="mb-4" style="max-width: 30rem;">
             <label for="inputTitle" class="form-label fs-4">Title</label>
             <input required type="text" class="form-control text-bold" name="title"
-                id="inputTitle" value="<?php echo $_POST["title"]?>">
+                id="inputTitle" value="<?php echo htmlspecialchars($_POST["title"])?>">
         </div>
         <div class="mb-4" style="max-width: 30rem;">
             <label for="inputTitleImage" class="form-label fs-4">Title image</label>
@@ -14,7 +14,7 @@
         <div class="mb-4">
             <label for="inputContent" class="form-label fs-4">Content</label>
             <textarea requird style="min-height: 30rem;" class="form-control" type="text" name="content" 
-                maxlength="2000" id="inputContent" value="<?php echo $_POST["content"]?>">
+                maxlength="2000" id="inputContent" value="<?php echo htmlspecialchars($_POST["content"])?>">
             </textarea>
         </div>
         <div class="md-3">

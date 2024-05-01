@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     CsrfTokenRequired();
 
-    $username = htmlspecialchars(ParamRequired("username"));
+    $username = ParamRequired("username");
     $password = ParamRequired("password");
 
     // And here. also nothing!!!

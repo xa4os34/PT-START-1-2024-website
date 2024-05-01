@@ -13,8 +13,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     CsrfTokenRequired();
 
     $titleImage = null;
-    $title = ParamRequired("title");
-    $content = ParamRequired("content");
+    $title = strip_tags(ParamRequired("title"));
+    $content = strip_tags(ParamRequired("content"));
 
     if (strlen($content) > 2000)
         array_push($validationErrors, "Content must be less then 2000 characters long.");

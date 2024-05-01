@@ -17,6 +17,7 @@ if (isset($_GET["id"])) {
         include 'error404.php';
         exit;
     }
+
     $title = $post->Title;
     $mainBody = 'views/_post.php';
     include '_layout.php';

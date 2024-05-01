@@ -19,7 +19,7 @@ include_once '_utils.php';
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/a11y-dark.css">
 
-    <title><?php echo $title; ?></title>
+    <title><?php echo htmlspecialchars($title); ?></title>
 </head>
 
 <body data-bs-theme="dark">
