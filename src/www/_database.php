@@ -20,28 +20,33 @@ else {
 if (!isset($connection)) 
     die();
 
-function IsUsernameInUse(string $username) : bool {
+$EscapeSql = function (string $value) : string {
     global $connection;
+    return $connection->escape_string($value);
+}; // php is wierd.
+function IsUsernameInUse(string $username) : bool {
+    global $connection, $EscapeSql;
     $result = $connection->query(
-        "SELECT 'TRUE' FROM Users WHERE Username = '{$username}'");
+        "SELECT 'TRUE' FROM Users WHERE Username = '{$EscapeSql($username)}'");
 
     return $result->fetch_column(0) == "TRUE";
 }
 
 function IsEmailInUse(string $email) : bool {
-    global $connection;
+    global $connection, $EscapeSql;
     $result = $connection->query(
-        "SELECT 'TRUE' FROM Users WHERE Email = '{$email}'");
+        "SELECT 'TRUE' FROM Users WHERE Email = '{$EscapeSql($email)}'");
 
     return $result->fetch_column(0) == "TRUE";
 }
 
 function CreateUser(
     string $username, string $email, string $passwordHash) : ?int {
-    global $connection;
+    global $connection, $EscapeSql;
     $result = $connection->query(
         "INSERT INTO Users (Username, Email, PasswordHash)
-         VALUES ('{$username}', '{$email}', '{$passwordHash}')");
+         VALUES ('{$EscapeSql($username)}', '{$EscapeSql($email)}',
+                 '{$EscapeSql($passwordHash)}')");
 
     if (!$result)
         return null;
@@ -52,7 +57,8 @@ function CreateUser(
 function GetUserById(int $id) : ?User {
     global $connection;
     $result = $connection->query(
-        "SELECT Id, Username, Email, PasswordHash FROM Users WHERE Id = {$id}");
+        "SELECT Id, Username, Email, PasswordHash FROM Users 
+         WHERE Id = {$id}");
 
     if ($result == null)
         return null;
@@ -70,9 +76,10 @@ function GetUserById(int $id) : ?User {
 }
 
 function GetUserByUsername(string $username) : ?User {
-    global $connection;
+    global $connection, $EscapeSql;
     $result = $connection->query(
-        "SELECT Id, Username, Email, PasswordHash FROM Users WHERE Username = '{$username}'");
+        "SELECT Id, Username, Email, PasswordHash FROM Users
+         WHERE Username = '{$EscapeSql($username)}'");
 
     if ($result == null)
         return null;
@@ -90,7 +97,7 @@ function GetUserByUsername(string $username) : ?User {
 }
 
 function GetUserPosts(int $userId) : ?array {
-    global $connection;
+    global $connection, $EscapeSql;
         
     $user = GetUserById($userId);
 
@@ -98,7 +105,8 @@ function GetUserPosts(int $userId) : ?array {
         return null;
 
     $result = $connection->query(
-        "SELECT Id, Title, Content, TitleImage FROM Posts WHERE OwnerId = '{$userId}'");
+        "SELECT Id, Title, Content, TitleImage FROM Posts
+         WHERE OwnerId = '{$EscapeSql($userId)}'");
 
     if ($result == null)
         return null;
@@ -119,7 +127,8 @@ function GetPosts() : ?array {
     global $connection;
 
     $result = $connection->query(
-        "SELECT post.Id, post.Title, post.Content, post.TitleImage, user.Id, user.Username, user.Email
+        "SELECT post.Id, post.Title, post.Content, post.TitleImage, 
+                user.Id, user.Username, user.Email
              FROM Posts AS post
                   LEFT JOIN Users AS user 
                   ON post.OwnerId = user.Id
@@ -146,7 +155,8 @@ function GetPostById(int $postId) : ?Post {
     global $connection;
 
     $result = $connection->query(
-        "SELECT post.Id, post.Title, post.Content, post.TitleImage, user.Id, user.Username, user.Email
+        "SELECT post.Id, post.Title, post.Content, post.TitleImage, 
+                user.Id, user.Username, user.Email
              FROM Posts AS post
                  LEFT JOIN Users AS user 
                  ON post.OwnerId = user.Id
@@ -168,12 +178,16 @@ function GetPostById(int $postId) : ?Post {
             null, $row[4]));
 }
 
-function CreatePost(string $title, string $content, ?string $TitleImage, int $ownerId) : ?int {
-    global $connection;
-    // Very readable code. I think...
+function CreatePost(
+    string $title, string $content,
+    ?string $TitleImage, int $ownerId) : ?int {
+    global $connection, $EscapeSql;
+    // Very readable code. I think. Yeah, now it's readable. (I love myself)
+    $titleImage = $titleImage == null ? "DEFAULT" : $titleImage;
     $result = $connection->query(
-        "INSERT INTO Posts (Title, Content, " . ($TitleImage != null ? "TitleImage, " : "") . "OwnerId) 
-         VALUES ('{$title}', '{$content}', " . ($TitleImage != null ? " '{$TitleImage}', " : "") . "'{$ownerId}');");
+        "INSERT INTO Posts (Title, Content, OwnerId, TitleImage) 
+         VALUES ('{$EscapeSql($title)}', '{$EscapeSql($content)}', 
+                 $ownerId '{$EscapeSql($titleImage)}');");
 
     if (!$result)
         return null;
