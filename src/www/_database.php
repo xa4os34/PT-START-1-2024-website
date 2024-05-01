@@ -184,7 +184,7 @@ function GetPostById(int $postId) : ?Post {
 
 function CreatePost(
     string $title, string $content,
-    ?string $TitleImage, int $ownerId) : ?int {
+    ?string $titleImage, int $ownerId) : ?int {
 
     global $connection, $EscapeSql;
     // Very readable code. I think. Yeah, now it's readable. (I love myself)
