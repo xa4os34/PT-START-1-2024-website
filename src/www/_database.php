@@ -188,11 +188,11 @@ function CreatePost(
 
     global $connection, $EscapeSql;
     // Very readable code. I think. Yeah, now it's readable. (I love myself)
-    $titleImage = $titleImage == null ? "DEFAULT" : $titleImage;
+    $titleImage = $titleImage == null ? "DEFAULT" : "'$titleImage'";
     $result = $connection->query(
         "INSERT INTO Posts (Title, Content, OwnerId, TitleImage) 
          VALUES ('{$EscapeSql($title)}', '{$EscapeSql($content)}', 
-                 $ownerId '{$EscapeSql($titleImage)}');");
+                 $ownerId, {$EscapeSql($titleImage)});");
 
     if (!$result)
         return null;
