@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = ParamRequired("password");
     $passwordSecond = ParamRequired("passwordSecond");
 
-    if (!preg_match("/^[A-z0-9_-]{3,30}/", $username)) //White list is better then htmlspecialchars.
+    if (!preg_match("/^[A-z0-9_-]{3,30}$/", $username)) //White list is better then htmlspecialchars.
         array_push($validationErrors, "Username contain not allowed characters or too long or too short.");
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL))
