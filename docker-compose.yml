@@ -16,6 +16,8 @@ services:
       - MYSQL_DATABASE=pt-start
     depends_on:
       - database
+    volumes:
+      - ./src/www/files:/var/www/pt-start/files/
     networks:
       custom_network:
         ipv4_address:  172.20.0.22
