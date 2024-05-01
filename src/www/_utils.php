@@ -44,5 +44,13 @@ function CsrfTokenRequired() {
     $_SESSION["csrf_token"] = null;
 }
 
+function IsImage($fileInfo) : bool {
+    $allowedTypes = ['image/gif', 'image/jpeg', 'image/jpg', 'image/pjpeg', 'image/x-png', 'image/png'];
+
+    $fileType = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $fileInfo['tmp_name']);
+    
+    return in_array($fileType, $allowedTypes);
+}
+
 
 ?>

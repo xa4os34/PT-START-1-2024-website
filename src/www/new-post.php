@@ -22,19 +22,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (strlen($title) > 100)
         array_push($validationErrors, "Title must be less then 100 characters long.");
 
-    if (isset($_FILES["titleImage"]) && intval($_FILES["titleImage"]["size"]) > 0) {
-        $fileInfo = $_FILES["titleImage"];
-        if ($fileInfo["size"] > 1048576) {
-            array_push($validationErrors, "Size of Title Image must be less then 1MiB.");
-            goto renderPage;
-        }
-
-        $titleImage = basename($fileInfo["name"]);
-        move_uploaded_file($fileInfo["tmp_name"], getcwd() . "/files/title-images/" . $titleImage);
-    }
-
     if (count($validationErrors) > 0)
         goto renderPage;   
+
+    if (isset($_FILES["titleImage"]) && $_FILES["titleImage"]["size"] > 0) {  
+        $fileInfo = $_FILES["titleImage"];
+        
+        if (@$fileInfo["error"] !== UPLOAD_ERR_OK) 
+            array_push($validationErrors, "Something went wrong so we couldn't upload the file.");
+
+        if (@$fileInfo["size"] > 1048576) 
+            array_push($validationErrors, "Size of Title Image must be less then 1MiB.");
+
+        if (!IsImage($fileInfo)) 
+            array_push($validationErrors, "File must be png, jpg or gif.");
+
+        if (count($validationErrors) > 0) {
+            goto renderPage;   
+        }
+
+
+        $fileExtension = pathinfo($fileInfo["name"], PATHINFO_EXTENSION);
+        $titleImage = uniqid() . ".{$fileExtension}";
+        if (!move_uploaded_file($fileInfo["tmp_name"], getcwd() . "/files/title-images/" .  $titleImage)) {
+            array_push($validationErrors, "Something went wrong so we couldn't upload the file.");
+            goto renderPage;
+        }
+    }
+
 
     $userId = $_SESSION["user_id"];
     $postId = CreatePost($title, $content, $titleImage, $userId);

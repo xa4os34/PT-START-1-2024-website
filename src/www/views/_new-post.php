@@ -13,8 +13,9 @@
         </div>
         <div class="mb-4">
             <label for="inputContent" class="form-label fs-4">Content</label>
-            <textarea requird style="min-height: 30rem;" class="form-control" type="text" name="content" 
-                maxlength="2000" id="inputContent" value="<?php echo htmlspecialchars($_POST["content"])?>">
+            <textarea requird style="min-height: 30rem;" class="form-control" type="text"
+                      name="content" maxlength="2000" id="inputContent">
+                <?php echo htmlspecialchars($_POST["content"])?>
             </textarea>
         </div>
         <div class="md-3">
