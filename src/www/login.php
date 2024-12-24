@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // And here. also nothing!!!
     $result = GetUserByUsername($username);
 
-    if ($result != null || password_verify($password, $result->PasswordHash)) {
+    if ($result != null && password_verify($password, $result->PasswordHash)) {
         $_SESSION['is_auth'] = true;
         $_SESSION['user_id'] = $result->Id;
         $_SESSION['username'] = $result->Username;
