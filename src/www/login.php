@@ -22,19 +22,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // And here. also nothing!!!
     $result = GetUserByUsername($username);
 
-    if ($result == null || !password_verify($password, $result->PasswordHash)) {
-        Unauthorized();
-        $loginFailed = true;
-        goto renderPage;
+    if ($result != null || password_verify($password, $result->PasswordHash)) {
+        $_SESSION['is_auth'] = true;
+        $_SESSION['user_id'] = $result->Id;
+        $_SESSION['username'] = $result->Username;
+        $_SESSION['email'] = $result->Email;
+
+        header("Location: /");
+        exit;
     }
 
-    $_SESSION['is_auth'] = true;
-    $_SESSION['user_id'] = $result->Id;
-    $_SESSION['username'] = $result->Username;
-    $_SESSION['email'] = $result->Email;
-
-    header("Location: /");
-    exit;
+    Unauthorized();
+    $loginFailed = true;
 }
 
 renderPage:
